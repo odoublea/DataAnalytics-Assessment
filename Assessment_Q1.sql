@@ -31,7 +31,7 @@ funded_investments AS (
     JOIN 
         savings_savingsaccount sa ON sa.plan_id = p.id
     WHERE 
-        p.is_a_fund = 1 OR p.is_managed_portfolio = 1
+        (p.is_a_fund = 1 OR p.is_managed_portfolio = 1)
         AND sa.transaction_status IN (
             'success', 'monnify_success', 'successful', 'usd_index_redemption', 'supportcredit', 'redemption',
             'reversal', 'reward', 'support credit', 'earnings', 'circle'

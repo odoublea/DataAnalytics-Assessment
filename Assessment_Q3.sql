@@ -45,7 +45,7 @@ SELECT
     ali.owner_id,
     CASE
         WHEN p.is_regular_savings = 1 THEN 'Savings'
-        WHEN p.is_a_fund = 1 OR p.is_managed_portfolio THEN 'Investment'
+        WHEN (p.is_a_fund = 1 OR p.is_managed_portfolio = 1) THEN 'Investment'
         WHEN p.is_a_wallet = 1 THEN 'Stash'
         ELSE 'Other'
     END AS type,
