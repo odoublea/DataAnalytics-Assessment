@@ -1,11 +1,11 @@
--- Step 1: Identify active savings accounts with their last inflow date
+-- Step 1: Identify last time a deposits was a made by a customer as last inflow date
 WITH savings_last_inflow AS (
     SELECT
         plan_id,
         owner_id,
         MAX(DATE(transaction_date)) AS last_inflow_date
     FROM savings_savingsaccount
-    WHERE confirmed_amount > 0  -- Inflow transactions
+    WHERE confirmed_amount > 0  
     GROUP BY plan_id, owner_id
 ),
 

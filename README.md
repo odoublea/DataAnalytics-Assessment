@@ -28,11 +28,13 @@ Identify customers who have at least one **funded savings plan** and one **funde
 
 **Challenges & Resolutions:**
 
+- **Challenge**: Occurrence of empty or null values in customers' first and/or last names
+  - **Resolution**: First and last names were checked for emptiness or null values; where present, they were replaced with `N/A`
 - **Challenge**: The deposit validation involved multiple filters across three columns (`verification_call_message`, `transaction_status`, and `gateway_response_message`) with numerous string values.
   - **Resolution**: Consolidated all valid transaction criteria based on known success messages, while preserving logic and ensuring only positively confirmed deposit transactions were aggregated.
 - **Challenge**: Handling logical operator precedence in `funded_investments` CTE for the `OR` clause.
   - **Resolution**: Added parentheses around `p.is_a_fund = 1 OR p.is_managed_portfolio` to avoid unintended filtering.
-- **Challenge**: Identifying all investment  plans
+- **Challenge**: Identifying all investment plans
   - **Resolution**: In addtion to identfying investments with `is_a_fund = 1`, `is_managed_portfolio = 1` was used to pick out investments not handled by the customer
 
 ---
@@ -86,6 +88,8 @@ Identify all savings and investment plans that have had no inflow activity for o
 
 **Challenges & Resolutions:**
 
+- **Challenge**: Occurrence of empty or null values in customers' first and/or last names
+  - **Resolution**: First and last names were checked for emptiness or null values; where present, they were replaced with `N/A`
 - **Challenge**: Handling different data sources (savings vs. investment) with different inflow date fields.
   - **Resolution**: Created two separate CTEs and normalized both to a common `last_inflow_date` format.
 - **Challenge**: Accurate inactivity calculation across product types.

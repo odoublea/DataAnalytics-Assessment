@@ -1,14 +1,18 @@
 WITH tenure AS (
     SELECT 
         id AS owner_id, 
-        CONCAT(first_name, " ", last_name) AS name, 
+        CONCAT(
+			COALESCE(NULLIF(TRIM(first_name), ''), 'N/A'),  -- Handling null or empty first_name values with N/A, Not Available
+				" ",
+			COALESCE(NULLIF(TRIM(last_name), ''), 'N/A')  -- Handling null or empty last_name values with N/A, Not Available
+            ) AS name, 
         TIMESTAMPDIFF(MONTH, created_on, CURRENT_DATE) AS tenure_months 
     FROM users_customuser
 ),
 total_transactions AS (
     SELECT 
         owner_id, 
-        SUM(confirmed_amount) AS total_transaction 
+        SUM(confirmed_amount) / 100 AS total_transaction -- Convert total transaction value to Naira
     FROM savings_savingsaccount 
     WHERE verification_call_message IN (
         'Verification successful', 'Verified', 'Gift redemption', 'Fund Redemption Paid', 'Fund Returns Paid',
@@ -33,7 +37,7 @@ SELECT
     t.owner_id AS customer_id, 
     t.name, 
     t.tenure_months, 
-    tt.total_transaction, 
+    ROUND(tt.total_transaction, 2) AS total_transactions,
     CASE 
         WHEN t.tenure_months = 0 THEN 0
         ELSE ROUND(((tt.total_transaction / t.tenure_months) * 12 * 0.001), 2)

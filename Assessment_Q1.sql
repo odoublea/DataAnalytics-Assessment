@@ -66,10 +66,14 @@ funded_investments AS (
 -- Aggregate users with both savings and investment plans and returns counts and total deposits across both.
 SELECT 
     u.id AS owner_id,
-    CONCAT(u.first_name, ' ', u.last_name) AS name,
+    CONCAT(
+			COALESCE(NULLIF(TRIM(first_name), ''), 'N/A'), -- Handling null or empty first_name values with N/A, Not Available
+				" ",
+			COALESCE(NULLIF(TRIM(last_name), ''), 'N/A')  -- Handling null or empty last_name values with N/A, Not Available
+	) AS name,
     fs.savings_count,
     fi.investment_count,
-    (fs.savings_deposits + fi.investment_deposits) AS total_deposits
+    ROUND((fs.savings_deposits + fi.investment_deposits) / 100, 2) AS total_deposits -- Calculate total deposits and convert the value from Kobo to Naira
 FROM 
     users_customuser u
 JOIN 
