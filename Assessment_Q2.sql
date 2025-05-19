@@ -5,11 +5,10 @@ WITH monthly_txns AS (
         DATE_FORMAT(transaction_date, '%Y-%m-01') AS txn_month, 
         COUNT(*) AS txn_count
     FROM savings_savingsaccount
-    WHERE transaction_status NOT IN (
+    WHERE transaction_status IN (
             'success', 'monnify_success', 'successful', 'usd_index_redemption', 'supportcredit', 'redemption',
-            'reward', 'support credit', 'earnings', 'circle'
+            'reward', 'support credit', 'earnings', 'circle', 'New Card Initialization Redemption.'
         )
-        AND confirmed_amount > 0
     GROUP BY owner_id, txn_month
 ),
 
