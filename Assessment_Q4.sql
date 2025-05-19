@@ -14,21 +14,11 @@ total_transactions AS (
         owner_id, 
         SUM(confirmed_amount) / 100 AS total_transaction -- Convert total transaction value to Naira
     FROM savings_savingsaccount 
-    WHERE verification_call_message IN (
-        'Verification successful', 'Verified', 'Gift redemption', 'Fund Redemption Paid', 'Fund Returns Paid',
-        'Managed Portfolio Redemption for Balanced Portfolio', 'Managed Portfolio Redemption for Conserv',
-        'Managed Portfolio Redemption for Conservative Portfolio', 'Managed Portfolio Redemption for Conservative Portfolio 2',
-        'Managed Portfolio Redemption for Growth', 'Managed Portfolio Redemption for Growth Portfolio',
-        'Payout for Arhat fruit (Cowrywise Investment Portfolio)', 'Reward Paid', 'successful',
-        'USD Index Redemption Paid'
-    )
-    AND transaction_status IN (
+    WHERE 
+    transaction_status IN (
         'success', 'monnify_success', 'successful', 'usd_index_redemption', 'supportcredit', 'redemption',
-        'reversal', 'reward', 'support credit', 'earnings'
+        'reversal', 'reward', 'support credit', 'earnings', 'circle'
     )
-    AND gateway_response_message IN (
-        'Successful', 'Approved by Financial Institution', 'Approved', 'Payment successful'
-    ) 
     GROUP BY owner_id
 )
 

@@ -10,20 +10,9 @@ WITH funded_savings AS (
         savings_savingsaccount sa ON sa.plan_id = p.id
     WHERE 
         p.is_regular_savings = 1
-        AND sa.verification_call_message IN (
-            'Verification successful', 'Verified', 'Gift redemption', 'Fund Redemption Paid',
-            'Fund Returns Paid', 'Managed Portfolio Redemption for Balanced Portfolio',
-            'Managed Portfolio Redemption for Conserv', 'Managed Portfolio Redemption for Conservative Portfolio',
-            'Managed Portfolio Redemption for Conservative Portfolio 2', 'Managed Portfolio Redemption for Growth',
-            'Managed Portfolio Redemption for Growth Portfolio', 'Payout for Arhat fruit (Cowrywise Investment Portfolio)',
-            'Reward Paid', 'successful', 'USD Index Redemption Paid'
-        )
         AND sa.transaction_status IN (
             'success', 'monnify_success', 'successful', 'usd_index_redemption', 'supportcredit', 'redemption',
-            'reversal', 'reward', 'support credit', 'earnings'
-        )
-        AND gateway_response_message IN (
-			'Successful', 'Approved by Financial Institution', 'Approved', 'Payment successful'
+            'reversal', 'reward', 'support credit', 'earnings', 'circle'
         )
         AND sa.confirmed_amount > 0
     GROUP BY 
@@ -42,21 +31,10 @@ funded_investments AS (
     JOIN 
         savings_savingsaccount sa ON sa.plan_id = p.id
     WHERE 
-        p.is_a_fund = 1 OR p.is_managed_portfolio
-        AND sa.verification_call_message IN (
-            'Verification successful', 'Verified', 'Gift redemption', 'Fund Redemption Paid',
-            'Fund Returns Paid', 'Managed Portfolio Redemption for Balanced Portfolio',
-            'Managed Portfolio Redemption for Conserv', 'Managed Portfolio Redemption for Conservative Portfolio',
-            'Managed Portfolio Redemption for Conservative Portfolio 2', 'Managed Portfolio Redemption for Growth',
-            'Managed Portfolio Redemption for Growth Portfolio', 'Payout for Arhat fruit (Cowrywise Investment Portfolio)',
-            'Reward Paid', 'successful', 'USD Index Redemption Paid'
-        )
+        p.is_a_fund = 1 OR p.is_managed_portfolio = 1
         AND sa.transaction_status IN (
             'success', 'monnify_success', 'successful', 'usd_index_redemption', 'supportcredit', 'redemption',
-            'reversal', 'reward', 'support credit', 'earnings'
-        )
-        AND gateway_response_message IN (
-			'Successful', 'Approved by Financial Institution', 'Approved', 'Payment successful'
+            'reversal', 'reward', 'support credit', 'earnings', 'circle'
         )
         AND sa.confirmed_amount > 0
     GROUP BY 
