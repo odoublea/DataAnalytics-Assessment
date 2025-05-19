@@ -4,7 +4,7 @@ WITH monthly_txns AS (
         owner_id, 
         DATE_FORMAT(transaction_date, '%Y-%m-01') AS txn_month, 
         COUNT(*) AS txn_count
-    FROM adashi_staging.savings_savingsaccount
+    FROM savings_savingsaccount
     GROUP BY owner_id, txn_month
 ),
 

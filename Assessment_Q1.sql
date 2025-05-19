@@ -5,9 +5,9 @@ WITH funded_savings AS (
         COUNT(DISTINCT p.id) AS savings_count,
         SUM(sa.confirmed_amount) AS savings_deposits
     FROM 
-        adashi_staging.plans_plan p
+        plans_plan p
     JOIN 
-        adashi_staging.savings_savingsaccount sa ON sa.plan_id = p.id
+        savings_savingsaccount sa ON sa.plan_id = p.id
     WHERE 
         p.is_regular_savings = 1
         AND sa.verification_call_message IN (
@@ -38,9 +38,9 @@ funded_investments AS (
         COUNT(DISTINCT p.id) AS investment_count,
         SUM(sa.confirmed_amount) AS investment_deposits
     FROM 
-        adashi_staging.plans_plan p
+        plans_plan p
     JOIN 
-        adashi_staging.savings_savingsaccount sa ON sa.plan_id = p.id
+        savings_savingsaccount sa ON sa.plan_id = p.id
     WHERE 
         p.is_a_fund = 1 OR p.is_managed_portfolio
         AND sa.verification_call_message IN (
@@ -71,7 +71,7 @@ SELECT
     fi.investment_count,
     (fs.savings_deposits + fi.investment_deposits) AS total_deposits
 FROM 
-    adashi_staging.users_customuser u
+    users_customuser u
 JOIN 
     funded_savings fs ON u.id = fs.owner_id
 JOIN 
