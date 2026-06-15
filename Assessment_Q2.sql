@@ -6,7 +6,7 @@ WITH monthly_txns AS (
         DATE_FORMAT(transaction_date, '%Y-%m') AS txn_month, 
         COUNT(*) AS txn_count
     FROM savings_savingsaccount
-    
+
     WHERE transaction_status IN (
             'success', 'monnify_success', 'successful'
         ) OR confirmed_amount > 0
@@ -42,4 +42,3 @@ SELECT
 FROM categorized_customers
 GROUP BY frequency_category
 ORDER BY FIELD(frequency_category, 'High Frequency', 'Medium Frequency', 'Low Frequency');
-
