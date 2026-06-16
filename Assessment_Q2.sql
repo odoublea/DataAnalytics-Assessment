@@ -2,14 +2,13 @@
 WITH monthly_txns AS (
     SELECT 
         owner_id, 
-        -- COUNT(DISTINCT DATE_FORMAT(transaction_date, '%Y-%m')) AS active_month,
         DATE_FORMAT(transaction_date, '%Y-%m') AS txn_month, 
         COUNT(*) AS txn_count
     FROM savings_savingsaccount
 
     WHERE transaction_status IN (
             'success', 'monnify_success', 'successful'
-        ) OR confirmed_amount > 0
+        ) AND confirmed_amount > 0
     GROUP BY owner_id, txn_month
 ),
 
@@ -38,7 +37,7 @@ categorized_customers AS (
 SELECT 
     frequency_category,
     COUNT(owner_id) AS customer_count,
-    ROUND(AVG(avg_monthly_txn), 1) AS avg_transactions_per_month
+    ROUND(AVG(avg_monthly_txn), 2) AS avg_transactions_per_month
 FROM categorized_customers
 GROUP BY frequency_category
 ORDER BY FIELD(frequency_category, 'High Frequency', 'Medium Frequency', 'Low Frequency');
