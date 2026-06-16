@@ -132,11 +132,27 @@ Estimate a customer’s CLV using their tenure and total confirmed transaction v
 
 3. **Final CLV formula**:
 
-$$\text{CLV} = \left( \frac{\text{total\_transactions}}{\text{tenure}} \right) \times 12 \times \text{avg\_profit\_per\_transaction}$$
+$$
+\text{CLV} =
+\left(
+\frac{\text{total\_transactions}}
+{\text{tenure\_months}}
+\right)
+\times 12
+\times \text{avg\_profit\_per\_transaction}
+$$
 
 where `avg_profit_per_transaction` = 0.1%, so the formula expands to:
 
-$$\text{CLV} = \left( \frac{\text{total\_transactions}}{\text{tenure}} \right) \times 12 \times 0.001$$
+$$
+\text{CLV} =
+\left(
+\frac{\text{total\_transactions}}
+{\text{tenure\_months}}
+\right)
+\times 12
+\times 0.001
+$$
 
 ---
 
