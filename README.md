@@ -128,20 +128,16 @@ Estimate a customer’s CLV using their tenure and total confirmed transaction v
 
 1. **`Tenure` CTE**: Calculates the number of months since the user account was created.
 
-2. **Transaction**: Sums confirmed transactions based on a whitelist of successful `verification_call_message`, `transaction_status`, and `gateway_response_message` values.
+2. **Transaction**: Sums confirmed transactions based on a whitelist of successful `transaction_status` values.
 
 3. **Final CLV formula**:
 
-\[
+$$\text{CLV} = \left( \frac{\text{total\_transactions}}{\text{tenure}} \right) \times 12 \times \text{avg\_profit\_per\_transaction}$$
 
-\text{CLV} = \left(\frac{\text{Total Transaction}}{\text{Tenure in Months}} \right) \times 12 \times 0.001
+where `avg_profit_per_transaction` = 0.1%, so the formula expands to:
 
-\]
+$$\text{CLV} = \left( \frac{\text{total\_transactions}}{\text{tenure}} \right) \times 12 \times 0.001$$
 
-- Multiplied by 12 to annualize.
-
-- Multiplied by 0.001 to simulate a business-specific monetization factor (e.g., 0.1% margin or retention projection).
-  
 ---
 
 ## Challenges & Learnings
